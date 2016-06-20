@@ -24,7 +24,7 @@ public class Obj {
     }
 
     @Required
-    @Boolean("getA()>3")
+    @Boolean("a>3 && a<5")
     public int getA() {
         return a;
     }
@@ -33,7 +33,7 @@ public class Obj {
         this.a = a;
     }
 
-    @Required
+    @Boolean("b!=null && b.length()<3")
     public String getB() {
         return b;
     }

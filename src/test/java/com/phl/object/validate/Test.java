@@ -6,8 +6,9 @@ package com.phl.object.validate;
 public class Test {
     public static void main(String[] args) {
         Obj obj=new Obj();
-        obj.setA(1);
-        obj.setEmail("cdee");
+        obj.setA(6);
+        obj.setB("ab");
+        obj.setEmail("panhl423@163.com");
         ValidateFactory.validate(obj);
     }
 }
