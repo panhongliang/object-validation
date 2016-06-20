@@ -9,10 +9,10 @@ import com.phl.object.validate.annotation.Required;
  */
 public class Obj {
 
-    int a;
-    String b;
-    double c;
-    String email;
+    private int a;
+    private String b;
+    private double c;
+    private String email;
 
     @Regular(Constants.Regular.EMAIL)
     public String getEmail() {

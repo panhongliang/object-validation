@@ -34,7 +34,6 @@ public class ValidateFactory {
 			InputStream input= ValidateFactory.class.getClassLoader().getResourceAsStream("validate.properties");
 			if(input==null){
 				logger.log(Level.WARNING, "no extra validate.properties file found in class path");
-
 			}else {
 				props.load(input);
 				Iterator it=props.keySet().iterator();
