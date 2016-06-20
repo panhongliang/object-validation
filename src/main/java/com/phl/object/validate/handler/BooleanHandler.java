@@ -30,7 +30,7 @@ public class BooleanHandler implements Validate {
                 throw new ValidateException(e);
             }
             if (ognlValue==null) {
-                throw new IllegalArgumentException("not a boolean value ognl express:" + express);
+                throw new ValidateException("not a boolean value ognl express:" + express);
             }
 
             if(ognlValue.getClass()==java.lang.Boolean.class){
@@ -39,7 +39,7 @@ public class BooleanHandler implements Validate {
                         throw new  ValidateException(String.format(Constants.ValidateMsg.FAIL,express,targetMethod.getName(),value,target));
                     }
             }else{
-                    throw new IllegalArgumentException("not a boolean value ognl express:" + express);
+                    throw new ValidateException("not a boolean value ognl express:" + express);
             }
 
         }
