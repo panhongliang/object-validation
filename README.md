@@ -1,12 +1,11 @@
 # object-validation
 
 对象值校验，支持非空校验（@Required）,正则表达式校验(@Regular(正则表达式)),Ognl表达式校验（@Boolean(Ognl表达式)），可以满足大部分需
-求，不满足需求的情况下可以自己扩展。支持扩展和覆盖默认实现
+求，不满足需求的情况下可以自己扩展。支持扩展和覆盖默认实现。
 校验方法：在类的get方法上打上相应的注释，然后调用  ValidateFactory.validate(对象)即可;
 如：有类Obj，
 
 public class Obj {
-
     private int a;
     private String b;
     private double c;
@@ -49,6 +48,8 @@ public class Obj {
         this.c = c;
     }
 }
+
+
 测试类：
 
 public class Test {
@@ -74,3 +75,4 @@ com.phl.object.validate.ValidateException: validated failed with express: a>3 &&
 	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
 	at java.lang.reflect.Method.invoke(Method.java:606)
 	at com.intellij.rt.execution.application.AppMain.main(AppMain.java:144)
+
