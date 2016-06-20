@@ -15,7 +15,7 @@ public class RequiredHandler implements Validate {
 
 	@SuppressWarnings("rawtypes")
 	public void validate(Object target, Object value, Method m, Annotation annotation) {
-		String tip=m.getName().substring(3)+"值不能为空";
+		String tip=m.getName().substring(3)+" null value not allowed";
 		if(value==null ||value.toString().length()==0){
 			throw new  ValidateException(tip);
 		}
