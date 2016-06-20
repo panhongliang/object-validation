@@ -11,6 +11,6 @@ public class Constants {
         public static final String CHINESE_CHAR="^[\u4e00-\u9fa5]{1,}$";
     }
     public static class ValidateMsg{
-        public static final String FAIL="validated failed with express:%s, method:%s value:%s object:%s";
+        public static final String FAIL="validated failed with express: %s, method: %s value: %s object: %s";
     }
 }

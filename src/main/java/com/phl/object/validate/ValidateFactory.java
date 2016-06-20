@@ -11,6 +11,7 @@ import com.phl.object.validate.handler.RequiredHandler;
 import java.io.IOException;
 import java.io.InputStream;
 import java.lang.annotation.Annotation;
+import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.*;
 import java.util.logging.Level;
@@ -106,9 +107,14 @@ public class ValidateFactory {
 			if(!ms[i].getName().startsWith("get")){continue;}
 
 			List<Annotation> list = getValidates(ms[i]);
-			try {
+
 			if (list.size() > 0) {
-				Object value  = ms[i].invoke(obj);
+				Object value  = null;
+				try {
+					value = ms[i].invoke(obj);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
 				Class returnType=ms[i].getReturnType();
 				for (Annotation an : list) {
 					Validate validate = VALIDATE_HANDLER.get(an.annotationType());
@@ -128,11 +134,7 @@ public class ValidateFactory {
 					validate(value);
 				}
 			}
-			} catch (Exception e) {
-				e.printStackTrace();
 			}
-
-		}
 	}
 
 	/**
