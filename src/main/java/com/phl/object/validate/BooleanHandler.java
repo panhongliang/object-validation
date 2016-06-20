@@ -4,6 +4,7 @@ import java.lang.annotation.Annotation;
 import java.lang.reflect.Method;
 
 import ognl.Ognl;
+import ognl.OgnlException;
 
 import static ognl.Ognl.getValue;
 
@@ -15,9 +16,14 @@ public class BooleanHandler implements Validate {
     public static final BooleanHandler instance=new BooleanHandler();
 
     public void validate(Object target, Object value, Method targetMethod, Annotation annotation) {
-        if (annotation.annotationType() == Boolean.class) try {
+        if (annotation.annotationType() == Boolean.class){
             String express = (String) AnnotationUtil.value(annotation, "value");
-            Object ognlValue = Ognl.getValue(express, target);
+            Object ognlValue = null;
+            try {
+                ognlValue = Ognl.getValue(express, target);
+            } catch (OgnlException e) {
+                throw new ValidateException(e);
+            }
             if (ognlValue==null) {
                 throw new IllegalArgumentException("not a boolean value ognl express:" + express);
             }
@@ -25,14 +31,12 @@ public class BooleanHandler implements Validate {
             if(ognlValue.getClass()==java.lang.Boolean.class){
                     boolean result=(java.lang.Boolean) ognlValue;
                     if(!result){
-                        throw new  ValidateException("validated failed with express:"+express+", method:"+targetMethod.getName()+", value:"+value+" object:"+target);
+                        throw new  ValidateException(String.format(Constants.ValidateMsg.FAIL,express,targetMethod.getName(),value,target));
                     }
             }else{
                     throw new IllegalArgumentException("not a boolean value ognl express:" + express);
             }
 
-        } catch (Exception e) {
-            e.printStackTrace();
         }
     }
 }
