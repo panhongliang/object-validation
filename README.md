@@ -4,6 +4,7 @@
 求，不满足需求的情况下可以自己扩展。支持扩展和覆盖默认实现
 校验方法：在类的get方法上打上相应的注释，然后调用  ValidateFactory.validate(对象)即可;
 如：有类Obj，
+
 public class Obj {
 
     private int a;
@@ -49,6 +50,7 @@ public class Obj {
     }
 }
 测试类：
+
 public class Test {
     public static void main(String[] args) {
         Obj obj=new Obj();
