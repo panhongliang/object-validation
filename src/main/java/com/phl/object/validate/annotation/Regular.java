@@ -1,4 +1,4 @@
-package com.phl.object.validate;
+package com.phl.object.validate.annotation;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
@@ -11,6 +11,6 @@ import java.lang.annotation.Target;
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.METHOD)
 @Validation
-public @interface Boolean {
-    String value() default "";
+public @interface Regular {
+ String value() default "";
 }

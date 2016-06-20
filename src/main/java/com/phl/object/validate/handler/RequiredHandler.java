@@ -1,4 +1,7 @@
-package com.phl.object.validate;
+package com.phl.object.validate.handler;
+
+import com.phl.object.validate.Validate;
+import com.phl.object.validate.ValidateException;
 
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Method;
@@ -17,7 +20,7 @@ public class RequiredHandler implements Validate {
 	public void validate(Object target, Object value, Method m, Annotation annotation) {
 		String tip=m.getName().substring(3)+" null value not allowed";
 		if(value==null ||value.toString().length()==0){
-			throw new  ValidateException(tip);
+			throw new ValidateException(tip);
 		}
 		if(Map.class.isAssignableFrom(value.getClass())){
 			Map map=(Map)value;

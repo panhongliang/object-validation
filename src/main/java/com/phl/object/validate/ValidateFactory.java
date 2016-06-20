@@ -1,5 +1,13 @@
 package com.phl.object.validate;
 
+import com.phl.object.validate.annotation.Boolean;
+import com.phl.object.validate.annotation.Regular;
+import com.phl.object.validate.annotation.Required;
+import com.phl.object.validate.annotation.Validation;
+import com.phl.object.validate.handler.BooleanHandler;
+import com.phl.object.validate.handler.RegularHandler;
+import com.phl.object.validate.handler.RequiredHandler;
+
 import java.io.IOException;
 import java.io.InputStream;
 import java.lang.annotation.Annotation;
@@ -18,8 +26,8 @@ public class ValidateFactory {
 
 	static{
 		VALIDATE_HANDLER.put(Required.class, RequiredHandler.instance);
-		VALIDATE_HANDLER.put(Boolean.class,BooleanHandler.instance);
-		VALIDATE_HANDLER.put(Regular.class,RegularHandler.instance);
+		VALIDATE_HANDLER.put(Boolean.class, BooleanHandler.instance);
+		VALIDATE_HANDLER.put(Regular.class, RegularHandler.instance);
 		Properties props=new Properties();
 		try {
 			InputStream input= ValidateFactory.class.getClassLoader().getResourceAsStream("validate.properties");

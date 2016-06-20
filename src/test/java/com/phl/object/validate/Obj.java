@@ -1,5 +1,9 @@
 package com.phl.object.validate;
 
+import com.phl.object.validate.annotation.Boolean;
+import com.phl.object.validate.annotation.Regular;
+import com.phl.object.validate.annotation.Required;
+
 /**
  * Created by Administrator on 2016/6/16.
  */
