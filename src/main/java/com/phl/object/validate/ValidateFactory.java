@@ -13,13 +13,13 @@ import java.util.logging.Logger;
 @SuppressWarnings({"rawtypes","unchecked"})
 public class ValidateFactory {
 
-	private static Map<Class, Validate> VALIDATE_IMPL=new HashMap<Class, Validate>();
+	private static Map<Class, Validate> VALIDATE_HANDLER =new HashMap<Class, Validate>();
 	private static Logger logger = Logger.getLogger(ValidateFactory.class.getName());
 
 	static{
-		VALIDATE_IMPL.put(Required.class, RequiredHandler.instance);
-		VALIDATE_IMPL.put(Boolean.class,BooleanHandler.instance);
-		VALIDATE_IMPL.put(Regular.class,RegularHandler.instance);
+		VALIDATE_HANDLER.put(Required.class, RequiredHandler.instance);
+		VALIDATE_HANDLER.put(Boolean.class,BooleanHandler.instance);
+		VALIDATE_HANDLER.put(Regular.class,RegularHandler.instance);
 		Properties props=new Properties();
 		try {
 			InputStream input= ValidateFactory.class.getClassLoader().getResourceAsStream("validate.properties");
@@ -33,7 +33,7 @@ public class ValidateFactory {
 					String key=(String) it.next();
 					String value=props.getProperty(key);
 					try {
-						VALIDATE_IMPL.put(Class.forName(key), (Validate) Class.forName(value).newInstance());
+						VALIDATE_HANDLER.put(Class.forName(key), (Validate) Class.forName(value).newInstance());
 					} catch (ClassNotFoundException e) {
 						e.printStackTrace();
 					} catch (InstantiationException e) {
@@ -103,7 +103,7 @@ public class ValidateFactory {
 				Object value  = ms[i].invoke(obj);
 				Class returnType=ms[i].getReturnType();
 				for (Annotation an : list) {
-					Validate validate = VALIDATE_IMPL.get(an.annotationType());
+					Validate validate = VALIDATE_HANDLER.get(an.annotationType());
 					validate.validate(obj,value, ms[i],an);
 				}
 				//如果方法返回值不是8种基本类型及包装类及String类型，还要对返回的值进一步校验
