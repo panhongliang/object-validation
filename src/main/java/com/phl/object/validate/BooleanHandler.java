@@ -31,9 +31,6 @@ public class BooleanHandler implements Validate {
                     throw new IllegalArgumentException("not a boolean value ognl express:" + express);
             }
 
-            if (!(ognlValue instanceof Boolean)) {
-                throw new IllegalArgumentException("not a boolean value ognl express:" + express);
-            }
         } catch (Exception e) {
             e.printStackTrace();
         }
