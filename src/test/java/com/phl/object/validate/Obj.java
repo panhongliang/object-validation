@@ -8,8 +8,19 @@ public class Obj {
     int a;
     String b;
     double c;
+    String email;
+
+    @Regular(Constants.Regular.EMAIL)
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
 
     @Required
+    @Boolean("getA()>3")
     public int getA() {
         return a;
     }

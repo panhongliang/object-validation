@@ -7,7 +7,9 @@ import java.lang.reflect.Method;
 import java.util.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-
+/**
+ * Created by panhongliang  on 2016-06-20.
+ */
 @SuppressWarnings({"rawtypes","unchecked"})
 public class ValidateFactory {
 
@@ -15,7 +17,9 @@ public class ValidateFactory {
 	private static Logger logger = Logger.getLogger(ValidateFactory.class.getName());
 
 	static{
-		VALIDATE_IMPL.put(Required.class, RequiredImpl.instance);
+		VALIDATE_IMPL.put(Required.class, RequiredHandler.instance);
+		VALIDATE_IMPL.put(Boolean.class,BooleanHandler.instance);
+		VALIDATE_IMPL.put(Regular.class,RegularHandler.instance);
 		Properties props=new Properties();
 		try {
 			InputStream input= ValidateFactory.class.getClassLoader().getResourceAsStream("validate.properties");
@@ -100,7 +104,7 @@ public class ValidateFactory {
 				Class returnType=ms[i].getReturnType();
 				for (Annotation an : list) {
 					Validate validate = VALIDATE_IMPL.get(an.annotationType());
-					validate.validate(value, ms[i]);
+					validate.validate(obj,value, ms[i],an);
 				}
 				//如果方法返回值不是8种基本类型及包装类及String类型，还要对返回的值进一步校验
 				

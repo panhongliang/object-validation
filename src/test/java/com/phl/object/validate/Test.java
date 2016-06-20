@@ -7,6 +7,7 @@ public class Test {
     public static void main(String[] args) {
         Obj obj=new Obj();
         obj.setA(1);
+        obj.setEmail("cdee");
         ValidateFactory.validate(obj);
     }
 }
