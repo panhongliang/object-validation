@@ -15,7 +15,7 @@ public class ValidateFactory {
 	private static Logger logger = Logger.getLogger(ValidateFactory.class.getName());
 
 	static{
-		VALIDATE_IMPL.put(com.phl.object.validate.Required.class, RequiredImpl.instance);
+		VALIDATE_IMPL.put(Required.class, RequiredImpl.instance);
 		Properties props=new Properties();
 		try {
 			InputStream input= ValidateFactory.class.getClassLoader().getResourceAsStream("validate.properties");
