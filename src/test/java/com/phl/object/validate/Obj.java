@@ -3,6 +3,9 @@ package com.phl.object.validate;
 import com.phl.object.validate.annotation.Boolean;
 import com.phl.object.validate.annotation.Regular;
 import com.phl.object.validate.annotation.Required;
+import com.phl.object.validate.annotation.Validation;
+
+import java.util.Map;
 
 /**
  * Created by Administrator on 2016/6/16.
@@ -13,6 +16,7 @@ public class Obj {
     private String b;
     private double c;
     private String email;
+    private Map<String ,Obj1> map;
 
     @Regular(Constants.Regular.EMAIL)
     public String getEmail() {
@@ -21,6 +25,15 @@ public class Obj {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    @Required
+    public Map<String, Obj1> getMap() {
+        return map;
+    }
+
+    public void setMap(Map<String, Obj1> map) {
+        this.map = map;
     }
 
     @Required

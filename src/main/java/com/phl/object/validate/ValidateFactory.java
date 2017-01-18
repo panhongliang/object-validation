@@ -111,17 +111,17 @@ public class ValidateFactory {
 				validate( m, obj, annos);
 			}
 		}else{
+			HashMap<Method,List<Annotation>> map=new HashMap<Method, List<Annotation>>();
 			for (int i = 0, len = ms.length; i < len  ; i++) {
 				//get方法
 				if(!ms[i].getName().startsWith("get")){continue;}
 				List<Annotation> list = getValidates(ms[i]);
 				if (list.size() > 0) {
-					HashMap<Method,List<Annotation>> map=new HashMap<Method, List<Annotation>>();
 					map.put(ms[i],list);
-					cache.put(obj.getClass(),map);
 					validate(ms[i],obj,list);
 				}
 			}
+			cache.put(obj.getClass(),map);
 		}
 	}
 
