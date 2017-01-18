@@ -26,11 +26,7 @@
 
 	<name>validate</name>
 	<url>http://maven.apache.org</url>
-	<description>
-		对象值校验，支持非空校验（@Required）,正则表达式校验(@Regular(正则表达式)),Ognl表达式校验（@Boolean(Ognl表达式)）
-		校验方法：在类的get方法上打上相应的注释，然后调用  ValidateFactory.validate(对象)即可;
-		支持扩展和覆盖默认实现
-	</description>
+
 	<developers>
 		<developer>
 			<email>panhl423@163.com</email>
