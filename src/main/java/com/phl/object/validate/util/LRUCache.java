@@ -10,10 +10,10 @@ public class LRUCache<K,V> extends LinkedHashMap<K,V> {
     private static int DEFAULT_INITIAL_CAPACITY=100;
     private static int initialCapacity=DEFAULT_INITIAL_CAPACITY;
     public LRUCache(){
-        super(DEFAULT_INITIAL_CAPACITY,0.75f,false);
+        super(DEFAULT_INITIAL_CAPACITY,0.75f,true);
     }
     public LRUCache(int initialCapacity){
-        super(initialCapacity,0.75f,false);
+        super(initialCapacity,0.75f,true);
         this.initialCapacity=initialCapacity;
     }
 
