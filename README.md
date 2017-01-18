@@ -2,15 +2,24 @@
 
 对象值校验，支持非空校验（@Required）,正则表达式校验(@Regular(正则表达式)),Ognl表达式校验（@Boolean(Ognl表达式)），可以满足大部分需
 求，不满足需求的情况下可以自己扩展。支持扩展和覆盖默认实现。
-校验方法：在类的get方法上打上相应的注释，然后调用  ValidateFactory.validate(对象)即可;
-如：有类Obj，
+校验方法：
 
+在类上面加上@Validation注释，然后在属性的get方法上打上相应的注释，
+对集合的检验，在集合的get方法上加上@Required即可，
+然后调用  ValidateFactory.validate(对象)即可;
+如：有类Obj，
+@Validation
 public class Obj {
     private int a;
     private String b;
     private double c;
     private String email;
+    private Map<String ,Obj1> map;
 
+    @Required
+    public Map<String, Obj1> getMap() {
+        return map;
+    }
     @Regular(Constants.Regular.EMAIL) //要满足邮箱格式
     public String getEmail() {
         return email;
