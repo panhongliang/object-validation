@@ -2,10 +2,12 @@ package com.phl.object.validate;
 
 import com.phl.object.validate.annotation.Boolean;
 import com.phl.object.validate.annotation.Regular;
+import com.phl.object.validate.annotation.Validation;
 
 /**
  * Created by Administrator on 2017-01-18.
  */
+@Validation
 public class Obj1 {
     private String strA;
     private int ia;

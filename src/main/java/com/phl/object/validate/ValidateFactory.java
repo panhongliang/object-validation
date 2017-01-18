@@ -102,7 +102,11 @@ public class ValidateFactory {
 	 * @param obj
 	 */
 	public static void validate(Object obj) {
-		Method[] ms = obj.getClass().getMethods();
+		Class clazz=obj.getClass();
+		if(!clazz.isAnnotationPresent(Validation.class)){
+			return;
+		}
+		Method[] ms = clazz.getMethods();
 		if(cache.containsKey(obj.getClass())){
 			HashMap<Method,List<Annotation>> getMths=cache.get(obj.getClass());
 			for(Map.Entry<Method,List<Annotation>> entry:getMths.entrySet()){

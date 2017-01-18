@@ -10,6 +10,7 @@ import java.util.Map;
 /**
  * Created by Administrator on 2016/6/16.
  */
+@Validation
 public class Obj {
 
     private int a;

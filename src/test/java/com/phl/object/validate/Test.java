@@ -11,14 +11,14 @@ public class Test {
     public  void testObj() {
        long start= System.currentTimeMillis();
             Obj obj=new Obj();
-            obj.setA(4);
+            obj.setA(55555);
             obj.setB("ab");
             obj.setEmail("panhl423@163.com");
             Map<String ,Obj1> map=new HashMap<String, Obj1>();
             Obj1 obj1=new Obj1();
             obj1.setStrA("aaazzzzzzza");
             obj1.setIa(11);
-            obj1.setIb(9);
+            obj1.setIb(12);
              map.put("map",obj1);
             obj.setMap(map);
             ValidateFactory.validate(obj);
