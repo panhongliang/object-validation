@@ -7,6 +7,7 @@ import com.phl.object.validate.annotation.Validation;
 import com.phl.object.validate.handler.BooleanHandler;
 import com.phl.object.validate.handler.RegularHandler;
 import com.phl.object.validate.handler.RequiredHandler;
+import com.phl.object.validate.util.LRUCache;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -24,6 +25,7 @@ public class ValidateFactory {
 
 	private static Map<Class, Validate> VALIDATE_HANDLER =new HashMap<Class, Validate>();
 	private static Logger logger = Logger.getLogger(ValidateFactory.class.getName());
+	private static LRUCache<Class,HashMap<Method,List<Annotation>>> cache=new LRUCache<Class,HashMap<Method,List<Annotation>>>();
 
 	static{
 		VALIDATE_HANDLER.put(Required.class, RequiredHandler.instance);
@@ -101,41 +103,54 @@ public class ValidateFactory {
 	 */
 	public static void validate(Object obj) {
 		Method[] ms = obj.getClass().getMethods();
-		for (int i = 0, len = ms.length; i < len  ; i++) {
-			//get方法
-			if(!ms[i].getName().startsWith("get")){continue;}
-
-			List<Annotation> list = getValidates(ms[i]);
-
-			if (list.size() > 0) {
-				Object value  = null;
-				try {
-					value = ms[i].invoke(obj);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-				Class returnType=ms[i].getReturnType();
-				for (Annotation an : list) {
-					Validate validate = VALIDATE_HANDLER.get(an.annotationType());
-					validate.validate(obj,value, ms[i],an);
-				}
-				//如果方法返回值不是8种基本类型及包装类及String类型，还要对返回的值进一步校验
-				
-				//判断返回类型是否是集合
-				if(Collection.class.isAssignableFrom(returnType)){
-					validate((Collection)value);
-				}
-				if(Map.class.isAssignableFrom(returnType)){
-					validate((Map)value);
-				}
-				//如果返回的不是8种基础类型及包装类及String
-				if(!returnType.isPrimitive() && !isPrimitiveWrapClass(returnType) && !String.class.equals(returnType)){
-					validate(value);
+		if(cache.containsKey(obj.getClass())){
+			HashMap<Method,List<Annotation>> getMths=cache.get(obj.getClass());
+			for(Map.Entry<Method,List<Annotation>> entry:getMths.entrySet()){
+				Method m=entry.getKey();
+				List<Annotation> annos=entry.getValue();
+				validate( m, obj, annos);
+			}
+		}else{
+			for (int i = 0, len = ms.length; i < len  ; i++) {
+				//get方法
+				if(!ms[i].getName().startsWith("get")){continue;}
+				List<Annotation> list = getValidates(ms[i]);
+				if (list.size() > 0) {
+					HashMap<Method,List<Annotation>> map=new HashMap<Method, List<Annotation>>();
+					map.put(ms[i],list);
+					cache.put(obj.getClass(),map);
+					validate(ms[i],obj,list);
 				}
 			}
-			}
+		}
 	}
 
+	private static void validate(Method m,Object obj,List<Annotation> annos){
+		Object value  = null;
+		try {
+			value = m.invoke(obj);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		Class returnType=m.getReturnType();
+		for (Annotation an : annos) {
+			Validate validate = VALIDATE_HANDLER.get(an.annotationType());
+			validate.validate(obj,value, m,an);
+		}
+		//如果方法返回值不是8种基本类型及包装类及String类型，还要对返回的值进一步校验
+
+		//判断返回类型是否是集合
+		if(Collection.class.isAssignableFrom(returnType)){
+			validate((Collection)value);
+		}
+		if(Map.class.isAssignableFrom(returnType)){
+			validate((Map)value);
+		}
+		//如果返回的不是8种基础类型及包装类及String
+		if(!returnType.isPrimitive() && !isPrimitiveWrapClass(returnType) && !String.class.equals(returnType)){
+			validate(value);
+		}
+	}
 	/**
 	 * 获取方法上的校验注解
 	 * @param m
