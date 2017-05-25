@@ -18,18 +18,21 @@ public class MyRequiredHandler implements Validate {
 	public void validate(Object target, Object value, Method m, Annotation annotation) {
 		String tip=m.getName().substring(3)+" null value not allowed";
 		if(value==null ||value.toString().length()==0){
-			throw new ValidateException(tip);
+			ValidateFactory.EXCEPTION=tip;
+			return;
 		}
 		if(Map.class.isAssignableFrom(value.getClass())){
 			Map map=(Map)value;
 			if(map.size()==0){
-				throw new  ValidateException(tip);
+				ValidateFactory.EXCEPTION=tip;
+				return;
 			}
 		}
 		if(Collection.class.isAssignableFrom(value.getClass())){
 			Collection collection=(Collection)value;
 			if(collection.size()==0){
-				throw new  ValidateException(tip);
+				ValidateFactory.EXCEPTION=tip;
+				return;
 			}
 		}
 	}

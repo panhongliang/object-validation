@@ -1,9 +1,9 @@
 package com.phl.object.validate.handler;
 
+import com.phl.object.validate.ValidateFactory;
 import com.phl.object.validate.util.AnnotationUtil;
 import com.phl.object.validate.Constants;
 import com.phl.object.validate.Validate;
-import com.phl.object.validate.ValidateException;
 
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Method;
@@ -15,6 +15,7 @@ import java.util.regex.Pattern;
  */
 public class RegularHandler implements Validate {
 
+    private RegularHandler(){}
     public static final RegularHandler instance=new RegularHandler();
 
     public void validate(Object target, Object value, Method targetMethod, Annotation annotation) {
@@ -25,7 +26,8 @@ public class RegularHandler implements Validate {
             if(matcher.find()){
                 return;
             }else {
-                throw new ValidateException(String.format(Constants.ValidateMsg.FAIL,pattern,targetMethod.getName(),value,target));
+                ValidateFactory.EXCEPTION=String.format(Constants.ValidateMsg.FAIL,pattern,targetMethod.getName(),value,target);
+                return;
             }
 
     }

@@ -3,10 +3,10 @@ package com.phl.object.validate.handler;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Method;
 
+import com.phl.object.validate.ValidateFactory;
 import com.phl.object.validate.util.AnnotationUtil;
 import com.phl.object.validate.Constants;
 import com.phl.object.validate.Validate;
-import com.phl.object.validate.ValidateException;
 import com.phl.object.validate.annotation.Boolean;
 import ognl.Ognl;
 import ognl.OgnlException;
@@ -18,6 +18,8 @@ import static ognl.Ognl.getValue;
  */
 public class BooleanHandler implements Validate {
 
+    private BooleanHandler(){}
+
     public static final BooleanHandler instance=new BooleanHandler();
 
     public void validate(Object target, Object value, Method targetMethod, Annotation annotation) {
@@ -27,19 +29,23 @@ public class BooleanHandler implements Validate {
             try {
                 ognlValue = Ognl.getValue(express, target);
             } catch (OgnlException e) {
-                throw new ValidateException(e);
+                ValidateFactory.EXCEPTION=e.getMessage();
+                return;
             }
             if (ognlValue==null) {
-                throw new ValidateException("not a boolean value ognl express:" + express);
+                ValidateFactory.EXCEPTION="not a boolean value ognl express:" + express;
+                return;
             }
 
             if(ognlValue.getClass()==java.lang.Boolean.class){
                     boolean result=(java.lang.Boolean) ognlValue;
                     if(!result){
-                        throw new  ValidateException(String.format(Constants.ValidateMsg.FAIL,express,targetMethod.getName(),value,target));
+                        ValidateFactory.EXCEPTION=String.format(Constants.ValidateMsg.FAIL,express,targetMethod.getName(),value,target);
+                        return;
                     }
             }else{
-                    throw new ValidateException("not a boolean value ognl express:" + express);
+                ValidateFactory.EXCEPTION="not a boolean value ognl express:" + express;
+                return;
             }
 
         }

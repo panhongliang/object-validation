@@ -7,7 +7,6 @@ import com.phl.object.validate.annotation.Validation;
 import com.phl.object.validate.handler.BooleanHandler;
 import com.phl.object.validate.handler.RegularHandler;
 import com.phl.object.validate.handler.RequiredHandler;
-import com.phl.object.validate.util.LRUCache;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -25,8 +24,8 @@ public class ValidateFactory {
 
 	private static Map<Class, Validate> VALIDATE_HANDLER =new HashMap<Class, Validate>();
 	private static Logger logger = Logger.getLogger(ValidateFactory.class.getName());
-	private static LRUCache<Class,HashMap<Method,List<Annotation>>> cache=new LRUCache<Class,HashMap<Method,List<Annotation>>>();
 
+	public static String EXCEPTION;
 	static{
 		VALIDATE_HANDLER.put(Required.class, RequiredHandler.instance);
 		VALIDATE_HANDLER.put(Boolean.class, BooleanHandler.instance);
@@ -107,25 +106,16 @@ public class ValidateFactory {
 			return;
 		}
 		Method[] ms = clazz.getMethods();
-		if(cache.containsKey(obj.getClass())){
-			HashMap<Method,List<Annotation>> getMths=cache.get(obj.getClass());
-			for(Map.Entry<Method,List<Annotation>> entry:getMths.entrySet()){
-				Method m=entry.getKey();
-				List<Annotation> annos=entry.getValue();
-				validate( m, obj, annos);
+
+		for (int i = 0, len = ms.length; i < len  ; i++) {
+			//get方法
+			if(!ms[i].getName().startsWith("get")){continue;}
+			List<Annotation> list = getValidates(ms[i]);
+			if (list.size() > 0) {
+				validate(ms[i],obj,list);
+				if(ValidateFactory.EXCEPTION!=null)
+					return;
 			}
-		}else{
-			HashMap<Method,List<Annotation>> map=new HashMap<Method, List<Annotation>>();
-			for (int i = 0, len = ms.length; i < len  ; i++) {
-				//get方法
-				if(!ms[i].getName().startsWith("get")){continue;}
-				List<Annotation> list = getValidates(ms[i]);
-				if (list.size() > 0) {
-					map.put(ms[i],list);
-					validate(ms[i],obj,list);
-				}
-			}
-			cache.put(obj.getClass(),map);
 		}
 	}
 
@@ -140,6 +130,9 @@ public class ValidateFactory {
 		for (Annotation an : annos) {
 			Validate validate = VALIDATE_HANDLER.get(an.annotationType());
 			validate.validate(obj,value, m,an);
+			if(ValidateFactory.EXCEPTION!=null){
+				return;
+			}
 		}
 		//如果方法返回值不是8种基本类型及包装类及String类型，还要对返回的值进一步校验
 
