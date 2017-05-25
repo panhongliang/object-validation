@@ -4,12 +4,13 @@
 求，不满足需求的情况下可以自己扩展。支持扩展和覆盖默认实现。
 校验方法：
 
-在类上面加上@Validation注释，然后在属性的get方法上打上相应的注释，
-对集合的检验，在集合的get方法上加上@Required即可，
+在属性的get方法上打上相应的注释，支持对集合的检验
 然后调用  ValidateFactory.validate(对象)即可;
 如：有类Obj，
-@Validation
+
+
 public class Obj {
+
     private int a;
     private String b;
     private double c;
@@ -63,11 +64,14 @@ public class Obj {
 
 public class Test {
     public static void main(String[] args) {
+    
         Obj obj=new Obj();
         obj.setA(6);//a值不满足条件，会抛出非检查性异常
         obj.setB("ab");
         obj.setEmail("panhl423@163.com");
         ValidateFactory.validate(obj);
+        //判断ValidateFactory.EXCEPTION是否为空，为空则校验通过，不过空则校验失败
+        System.out.println(ValidateFactory.EXCEPTION);
     }
 }
 
@@ -75,13 +79,5 @@ public class Test {
 
 六月 20, 2016 2:00:39 下午 com.phl.object.validate.ValidateFactory <clinit>
 警告: no extra validate.properties file found in class path
-com.phl.object.validate.ValidateException: validated failed with express: a>3 && a<5, method: getA value: 6 object: com.phl.object.validate.Obj@5152441a
-	at com.phl.object.validate.handler.BooleanHandler.validate(BooleanHandler.java:39)
-	at com.phl.object.validate.ValidateFactory.validate(ValidateFactory.java:115)
-	at com.phl.object.validate.Test.main(Test.java:12)
-	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
-	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:57)
-	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
-	at java.lang.reflect.Method.invoke(Method.java:606)
-	at com.intellij.rt.execution.application.AppMain.main(AppMain.java:144)
+ validated failed with express: a>3 && a<5, method: getA value: 6 object: com.phl.object.validate.Obj@5152441a
 
