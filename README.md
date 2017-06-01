@@ -69,9 +69,12 @@ public class Test {
         obj.setA(6);//a值不满足条件，会抛出非检查性异常
         obj.setB("ab");
         obj.setEmail("panhl423@163.com");
-        ValidateFactory.validate(obj);
-        //判断ValidateFactory.EXCEPTION是否为空，为空则校验通过，不过空则校验失败
-        System.out.println(ValidateFactory.EXCEPTION);
+        String exception=ValidateFactory.validate(obj);
+        //判断exception是否为空，为空则校验通过，不过空则校验失败
+        if(exception!=null){
+            System.out.println(exception);
+        }
+        
     }
 }
 
