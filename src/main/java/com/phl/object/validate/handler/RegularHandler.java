@@ -18,17 +18,16 @@ public class RegularHandler implements Validate {
     private RegularHandler(){}
     public static final RegularHandler instance=new RegularHandler();
 
-    public void validate(Object target, Object value, Method targetMethod, Annotation annotation) {
+    public String validate(Object target, Object value, Method targetMethod, Annotation annotation) {
 
-            String patternStr= (String) AnnotationUtil.value(annotation,"value");
-            Pattern pattern = Pattern.compile(patternStr);
-            Matcher matcher = pattern.matcher((CharSequence) value);
-            if(matcher.find()){
-                return;
-            }else {
-                ValidateFactory.EXCEPTION=String.format(Constants.ValidateMsg.FAIL,pattern,targetMethod.getName(),value,target);
-                return;
-            }
+        String patternStr= (String) AnnotationUtil.value(annotation,"value");
+        Pattern pattern = Pattern.compile(patternStr);
+        Matcher matcher = pattern.matcher((CharSequence) value);
+        if(matcher.find()){
+            return null;
+        }else {
+            return String.format(Constants.ValidateMsg.REGULAR_FAIL,pattern,targetMethod.getName(),value,target);
+        }
 
     }
 }

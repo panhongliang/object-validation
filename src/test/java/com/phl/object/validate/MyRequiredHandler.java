@@ -15,26 +15,24 @@ public class MyRequiredHandler implements Validate {
 	public static MyRequiredHandler instance =new MyRequiredHandler();
 
 	@SuppressWarnings("rawtypes")
-	public void validate(Object target, Object value, Method m, Annotation annotation) {
-		String tip=m.getName().substring(3)+" null value not allowed";
+	public String validate(Object target, Object value, Method m, Annotation annotation) {
+		String tip=m.getName().substring(3)+" 不允许空值";
 		if(value==null ||value.toString().length()==0){
-			ValidateFactory.EXCEPTION=tip;
-			return;
+			return tip;
 		}
 		if(Map.class.isAssignableFrom(value.getClass())){
 			Map map=(Map)value;
 			if(map.size()==0){
-				ValidateFactory.EXCEPTION=tip;
-				return;
+				return tip;
 			}
 		}
 		if(Collection.class.isAssignableFrom(value.getClass())){
 			Collection collection=(Collection)value;
 			if(collection.size()==0){
-				ValidateFactory.EXCEPTION=tip;
-				return;
+				return tip;
 			}
 		}
+		return null;
 	}
 
 }

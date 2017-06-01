@@ -21,9 +21,11 @@ public class Test {
             obj1.setIb(12);
              map.put("map",obj1);
             obj.setMap(map);
-            ValidateFactory.validate(obj);
+            String exception =ValidateFactory.validate(obj);
 
-        long end=System.currentTimeMillis();
+            long end=System.currentTimeMillis();
+        System.out.println(exception);
+
         System.out.println(end-start);
     }
 }
