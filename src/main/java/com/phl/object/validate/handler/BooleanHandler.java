@@ -25,6 +25,7 @@ public class BooleanHandler implements Validate {
         try {
             ognlValue = Ognl.getValue(express, target);
         } catch (OgnlException e) {
+            e.printStackTrace();
             return "值:"+value+",不满足ognl表达式:"+express+",异常信息："+e.getMessage();
         }
         if (ognlValue == null) {
