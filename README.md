@@ -66,7 +66,7 @@ public class Test {
     public static void main(String[] args) {
     
         Obj obj=new Obj();
-        obj.setA(6);//a值不满足条件，会抛出非检查性异常
+        obj.setA(6);//a值不满足条件
         obj.setB("ab");
         obj.setEmail("panhl423@163.com");
         String exception=ValidateFactory.validate(obj);
@@ -77,10 +77,4 @@ public class Test {
         
     }
 }
-
-------------------------------运行结果------------------------------------------------
-
-六月 20, 2016 2:00:39 下午 com.phl.object.validate.ValidateFactory <clinit>
-警告: no extra validate.properties file found in class path
- validated failed with express: a>3 && a<5, method: getA value: 6 object: com.phl.object.validate.Obj@5152441a
 
